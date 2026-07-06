@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synapse Meeting Scraper</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="popup-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fa-solid fa-bolt-lightning logo-icon"></i>
+                <span>Synapse</span>
+            </div>
+            <div class="status-indicator-pill" id="status-pill">
+                <span class="pulse-dot"></span>
+                <span id="status-text">Idle</span>
+            </div>
+        </header>
+
+        <!-- Main Body -->
+        <main class="content">
+            <!-- Platform Detected Panel -->
+            <div class="glass-panel platform-panel">
+                <div class="platform-details">
+                    <span class="sub-label">Meeting Platform</span>
+                    <h2 id="platform-name"><i class="fa-solid fa-video"></i> No Active Meeting</h2>
+                </div>
+            </div>
+
+            <!-- Consent Warning Banner -->
+            <div class="warning-banner" id="consent-banner">
+                <div class="banner-body">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <p>Make sure all participants are aware this meeting is being transcribed.</p>
+                </div>
+                <button class="btn-close-banner" id="btn-dismiss-consent"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <!-- Stats Counters -->
+            <div class="stats-grid">
+                <div class="glass-panel stat-card">
+                    <span class="stat-value" id="stat-lines">0</span>
+                    <span class="stat-label">Lines Captured</span>
+                </div>
+                <div class="glass-panel stat-card">
+                    <span class="stat-value" id="stat-words">0</span>
+                    <span class="stat-label">Est. Words</span>
+                </div>
+            </div>
+
+            <!-- Caption Off Warning Prompt -->
+            <div class="caption-alert hidden" id="caption-warning">
+                <i class="fa-solid fa-closed-captioning"></i>
+                <div class="alert-content">
+                    <h4>Captions Off</h4>
+                    <p>Enable closed captions/subtitles in your meeting platform to start capturing the transcript.</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Actions Footer -->
+        <footer class="footer">
+            <button class="btn btn-secondary" id="btn-send-transit">
+                <i class="fa-solid fa-share-from-square"></i> Send to Synapse
+            </button>
+            <button class="btn btn-primary" id="btn-end-summarize">
+                <i class="fa-solid fa-circle-check"></i> End & Summarize
+            </button>
+        </footer>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>

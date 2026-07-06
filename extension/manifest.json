@@ -1,0 +1,53 @@
+{
+  "manifest_version": 3,
+  "name": "Synapse Meeting Caption Scraper",
+  "version": "1.0",
+  "description": "Automatically scrapes captions from Google Meet, Zoom, and Teams web client meetings and sends them to your Synapse dashboard.",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "_permissions_justification": {
+    "storage": "Used to buffer captured caption lines locally in extension storage during active sessions to prevent data loss when popup is closed.",
+    "activeTab": "Used to check the domain and title of the active meeting tab to display the appropriate platform status in the popup UI."
+  },
+  "host_permissions": [
+    "http://localhost:3000/*"
+  ],
+  "_host_permissions_justification": {
+    "http://localhost:3000/*": "Allows sending the buffered transcript data to the locally running Express backend server endpoint (/api/transcript) for summarization."
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Synapse Scraper"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://meet.google.com/*"
+      ],
+      "js": ["content-meet.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": [
+        "https://*.zoom.us/wc/*",
+        "https://*.zoom.us/rec/*",
+        "https://zoom.us/wc/*"
+      ],
+      "js": ["content-zoom.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": [
+        "https://teams.microsoft.com/*",
+        "https://teams.live.com/*"
+      ],
+      "js": ["content-teams.js"],
+      "run_at": "document_end"
+    }
+  ]
+}

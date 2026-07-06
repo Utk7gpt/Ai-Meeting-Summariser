@@ -1,0 +1,9 @@
+# Dependencies
+node_modules/
+
+# Local sensitive configuration (API keys, SMTP passwords)
+data/config.json
+
+# Local system files
+.DS_Store
+Thumbs.db

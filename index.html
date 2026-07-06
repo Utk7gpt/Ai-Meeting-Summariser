@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synapse • AI Meeting Action Agent</title>
+    <!-- Custom Glowing Synapse Nodes Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3CradialGradient id='r' cx='50%25' cy='50%25' r='50%25'%3E%3Cstop offset='0%25' stop-color='%23a78bfa'/%3E%3Cstop offset='100%25' stop-color='%234f46e5'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cline x1='50' y1='50' x2='30' y2='35' stroke='%23a78bfa' stroke-width='4' stroke-linecap='round'/%3E%3Cline x1='50' y1='50' x2='30' y2='65' stroke='%23a78bfa' stroke-width='4' stroke-linecap='round'/%3E%3Cline x1='50' y1='50' x2='70' y2='35' stroke='%23a78bfa' stroke-width='4' stroke-linecap='round'/%3E%3Cline x1='50' y1='50' x2='70' y2='65' stroke='%23a78bfa' stroke-width='4' stroke-linecap='round'/%3E%3Cline x1='50' y1='50' x2='50' y2='25' stroke='%23a78bfa' stroke-width='4' stroke-linecap='round'/%3E%3Cline x1='50' y1='50' x2='50' y2='75' stroke='%23a78bfa' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='30' cy='35' r='10' fill='url(%23r)'/%3E%3Ccircle cx='30' cy='65' r='10' fill='url(%23r)'/%3E%3Ccircle cx='70' cy='35' r='10' fill='url(%23r)'/%3E%3Ccircle cx='70' cy='65' r='10' fill='url(%23r)'/%3E%3Ccircle cx='50' cy='25' r='10' fill='url(%23r)'/%3E%3Ccircle cx='50' cy='75' r='10' fill='url(%23r)'/%3E%3Ccircle cx='50' cy='50' r='14' fill='%23ffffff'/%3E%3C/svg%3E" />
+    <!-- Modern Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=4">
+</head>
+<body>
+    <!-- Authentication Container Overlay -->
+    <div id="auth-container" class="auth-container">
+        <div class="auth-card glass-panel">
+            <div class="auth-header">
+                <div class="logo">
+                    <i class="fa-solid fa-bolt-lightning logo-icon"></i>
+                    <span>Synapse</span>
+                </div>
+                <p class="auth-subtitle">AI Meeting Copilot Platform</p>
+            </div>
+            
+            <!-- Sign In Form -->
+            <form id="form-signin" class="auth-form">
+                <h2>Sign In</h2>
+                <p class="form-desc">Access your meeting summary dashboard</p>
+                <div class="input-wrapper">
+                    <label for="signin-email">Email Address</label>
+                    <input type="email" id="signin-email" placeholder="name@company.com" required>
+                </div>
+                <div class="input-wrapper">
+                    <label for="signin-password">Password</label>
+                    <div class="password-input">
+                        <input type="password" id="signin-password" placeholder="••••••••" required>
+                        <button type="button" class="toggle-password"><i class="fa-solid fa-eye"></i></button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary w-full" style="margin-top: 16px;">Sign In</button>
+                <p class="auth-toggle-text">Don't have an account? <a href="#" id="link-show-signup">Sign Up</a></p>
+            </form>
+
+            <!-- Sign Up Form -->
+            <form id="form-signup" class="auth-form hidden">
+                <h2>Create Account</h2>
+                <p class="form-desc">Register to automate your post-meeting tasks</p>
+                <div class="input-wrapper">
+                    <label for="signup-name">Full Name</label>
+                    <input type="text" id="signup-name" placeholder="John Doe" required>
+                </div>
+                <div class="input-wrapper">
+                    <label for="signup-email">Email Address</label>
+                    <input type="email" id="signup-email" placeholder="name@company.com" required>
+                </div>
+                <div class="input-wrapper">
+                    <label for="signup-password">Password</label>
+                    <div class="password-input">
+                        <input type="password" id="signup-password" placeholder="••••••••" required>
+                        <button type="button" class="toggle-password"><i class="fa-solid fa-eye"></i></button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary w-full" style="margin-top: 16px;">Create Account</button>
+                <p class="auth-toggle-text">Already have an account? <a href="#" id="link-show-signin">Sign In</a></p>
+            </form>
+
+            <!-- Testing Account Hint -->
+            <div class="test-credentials">
+                <span class="test-badge">Testing Credentials</span>
+                <p>Email: <code>admin@synapse.ai</code> / Pass: <code>password123</code></p>
+                <button type="button" class="btn btn-text" id="btn-quick-login" style="padding: 4px 8px; margin-top: 4px;">Quick Login</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-container hidden">
+        <!-- Sidebar: Configuration Panel -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fa-solid fa-bolt-lightning logo-icon"></i>
+                    <span>Synapse</span>
+                </div>
+                <span class="badge" id="mode-badge">Demo Mode</span>
+            </div>
+
+            <div class="sidebar-content">
+                <div class="settings-group">
+                    <h3>Execution Mode</h3>
+                    <div class="toggle-container">
+                        <button class="toggle-btn active" id="btn-demo-mode">Demo Mode</button>
+                        <button class="toggle-btn" id="btn-live-mode">Live API</button>
+                        <div class="toggle-slider"></div>
+                    </div>
+                    <p class="mode-desc" id="mode-desc-text">
+                        Uses simulated AI parsing, Mock Todoist endpoints, and local email logs. Perfect for quick testing.
+                    </p>
+                </div>
+
+                <!-- API Credentials Group (Collapsible/Conditional) -->
+                <div class="settings-group credentials-group disabled" id="credentials-section">
+                    <h3>API Credentials</h3>
+                    
+                    <div class="input-wrapper">
+                        <label for="gemini-key">Gemini API Key</label>
+                        <div class="password-input">
+                            <input type="password" id="gemini-key" placeholder="AIzaSy...">
+                            <button type="button" class="toggle-password"><i class="fa-solid fa-eye"></i></button>
+                        </div>
+                        <span class="input-hint"><a href="https://aistudio.google.com/" target="_blank" rel="noopener">Get Gemini Key <i class="fa-solid fa-arrow-up-right-from-square"></i></a></span>
+                    </div>
+
+                    <div class="input-wrapper">
+                        <label for="todoist-token">Todoist API Token</label>
+                        <div class="password-input">
+                            <input type="password" id="todoist-token" placeholder="Bearer Token...">
+                            <button type="button" class="toggle-password"><i class="fa-solid fa-eye"></i></button>
+                        </div>
+                        <span class="input-hint"><a href="https://todoist.com/app/settings/integrations/developer" target="_blank" rel="noopener">Get Todoist Token <i class="fa-solid fa-arrow-up-right-from-square"></i></a></span>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h3>Follow-up Email Settings</h3>
+                    
+                    <div class="input-wrapper">
+                        <label for="email-provider">Email Provider</label>
+                        <select id="email-provider" class="select-input">
+                            <option value="resend">Resend API</option>
+                            <option value="smtp">SMTP Server (Gmail/Outlook)</option>
+                        </select>
+                    </div>
+
+                    <!-- Resend Section -->
+                    <div id="email-resend-section" class="email-provider-section">
+                        <div class="input-wrapper">
+                            <label for="resend-key">Resend API Key</label>
+                            <div class="password-input">
+                                <input type="password" id="resend-key" placeholder="re_...">
+                                <button type="button" class="toggle-password"><i class="fa-solid fa-eye"></i></button>
+                            </div>
+                            <span class="input-hint"><a href="https://resend.com/" target="_blank" rel="noopener">Get Resend Key <i class="fa-solid fa-arrow-up-right-from-square"></i></a></span>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="email-from">Sender Email (From)</label>
+                            <input type="text" id="email-from" placeholder="onboarding@resend.dev">
+                            <span class="input-hint">Default sandbox or your verified domain</span>
+                        </div>
+                    </div>
+
+                    <!-- SMTP Section -->
+                    <div id="email-smtp-section" class="email-provider-section hidden">
+                        <div class="input-wrapper">
+                            <label for="smtp-host">SMTP Host</label>
+                            <input type="text" id="smtp-host" placeholder="smtp.gmail.com">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="smtp-port">SMTP Port</label>
+                            <input type="text" id="smtp-port" placeholder="465 or 587">
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="smtp-user">SMTP Username / Email</label>
+                            <input type="text" id="smtp-user" placeholder="you@gmail.com">
+                            <span class="input-hint">From Email address</span>
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="smtp-pass">SMTP Password / App Key</label>
+                            <div class="password-input">
+                                <input type="password" id="smtp-pass" placeholder="App Password">
+                                <button type="button" class="toggle-password"><i class="fa-solid fa-eye"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-wrapper">
+                        <label for="email-recipients">Recipient Emails</label>
+                        <input type="text" id="email-recipients" placeholder="priya@company.com, raj@company.com">
+                        <span class="input-hint">Comma-separated email addresses</span>
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="team-directory">Team Directory (Auto-Resolve)</label>
+                        <textarea id="team-directory" placeholder="Priya: priya@company.com&#10;Raj: raj@company.com" rows="3" style="font-family: var(--font-mono); font-size: 0.8rem; padding: 8px; width: 100%; border-radius: 6px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); color: var(--text-primary); resize: vertical; margin-top: 4px;"></textarea>
+                        <span class="input-hint">Map names to emails to auto-resolve meeting participants.</span>
+                    </div>
+                    <div class="input-wrapper">
+                        <label for="email-sender-name">Sender Name</label>
+                        <input type="text" id="email-sender-name" placeholder="You">
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-footer" style="display: flex; flex-direction: column; gap: 8px;">
+                <button class="btn btn-secondary w-full" id="btn-save-settings">
+                    <i class="fa-solid fa-floppy-disk"></i> Save Configuration
+                </button>
+                <button class="btn btn-text w-full" id="btn-sign-out" style="color: var(--accent-rose); border: 1px dashed rgba(244, 63, 94, 0.2); background: rgba(244, 63, 94, 0.03); border-radius: 8px; padding: 10px; font-size: 0.82rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
+                    <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Workspace Area -->
+        <main class="main-content">
+            <!-- Top Navbar -->
+            <header class="top-nav">
+                <div class="nav-title">
+                    <h1>Meeting Copilot Agent</h1>
+                    <p>Read messy input • Extract structure • Take real actions</p>
+                </div>
+                <div class="nav-tabs" style="display: flex; gap: 8px; margin: 0 16px;">
+                    <button class="nav-tab active" id="tab-workspace" style="background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 0.82rem; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+                        <i class="fa-solid fa-laptop-code"></i> Workspace
+                    </button>
+                    <button class="nav-tab" id="tab-logs" style="background: transparent; border: 1px solid var(--border-color); color: var(--text-secondary); padding: 6px 12px; border-radius: 6px; font-size: 0.82rem; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+                        <i class="fa-solid fa-clock-rotate-left"></i> Meeting Logs <span class="badge" id="logs-pending-badge" style="display: none; background: #f59e0b; color: #030408; font-size: 0.65rem; padding: 2px 6px; border-radius: 99px; margin-left: 4px; font-weight: 700;">0</span>
+                    </button>
+                </div>
+                <div class="nav-actions">
+                    <button class="btn-icon" id="btn-help-modal" title="How this agent works"><i class="fa-regular fa-circle-question"></i></button>
+                </div>
+            </header>
+
+            <div class="workspace-viewport">
+                <!-- WORKSPACE VIEW -->
+                <div id="workspace-view" class="view-container" style="display: flex; flex-direction: column; gap: 20px; height: 100%;">
+                    <!-- STEP 1: Paste Input -->
+                    <section class="step-card active" id="step-input">
+                        <div class="card-header">
+                            <div class="step-indicator">Step 1 of 3</div>
+                            <h2>Provide Meeting Notes or Transcripts</h2>
+                            <p>Paste messy, unformatted bullet points, logs, or rough chatter below.</p>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="textarea-container">
+                                <textarea id="notes-input" placeholder="Type or paste messy notes here... e.g., 'Okay so Priya can finish the design docs by Tuesday...'"></textarea>
+                                <button class="btn-demo-data" id="btn-insert-demo">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i> Load Launch Notes Example
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="card-footer">
+                            <button class="btn btn-primary" id="btn-parse-notes">
+                                <span>Extract Action Items</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </section>
+
+                    <!-- STEP 2: Review & Edit Table -->
+                    <section class="step-card" id="step-review">
+                        <div class="card-header">
+                            <div class="step-indicator">Step 2 of 3</div>
+                            <h2>Review Extracted Tasks</h2>
+                            <p>The AI identified the following action items. Double-click or edit any cell to correct owners or dates before sending.</p>
+                        </div>
+
+                        <div class="card-body overflow-x-auto">
+                            <table class="review-table" id="action-items-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 50%;">Action Item (Task)</th>
+                                        <th style="width: 20%;">Assignee (Owner)</th>
+                                        <th style="width: 20%;">Due Date</th>
+                                        <th style="width: 10%; text-align: center;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="review-table-body">
+                                    <!-- Dynamic rows inserted here -->
+                                </tbody>
+                            </table>
+                            <button class="btn btn-text" id="btn-add-task-row">
+                                <i class="fa-solid fa-plus"></i> Add New Task
+                            </button>
+                        </div>
+
+                        <div class="card-footer split-buttons">
+                            <button class="btn btn-secondary" id="btn-back-to-input">
+                                <i class="fa-solid fa-arrow-left"></i> Back to Input
+                            </button>
+                            <button class="btn btn-primary" id="btn-execute-automations">
+                                <span>Run Automations & Send Summary</span>
+                                <i class="fa-solid fa-circle-check"></i>
+                            </button>
+                        </div>
+                    </section>
+
+                    <!-- STEP 3: Automated Actions Dashboard -->
+                    <section class="step-card" id="step-confirm">
+                        <div class="card-header text-center">
+                            <div class="step-indicator success">Step 3 of 3</div>
+                            <div class="success-header">
+                                <div class="pulse-check">
+                                    <svg class="checkmark-svg" viewBox="0 0 52 52">
+                                        <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" />
+                                        <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" fill="none" />
+                                    </svg>
+                                </div>
+                                <h2 class="reveal-header">Tasks Automated & Recap Ready!</h2>
+                            </div>
+                            <p class="reveal-desc">All items have been published. View details of the automated inputs and outputs below.</p>
+                        </div>
+
+                        <div class="card-body before-after-split">
+                            <!-- Before Panel (Original messy notes) -->
+                            <div class="panel before-panel">
+                                <div class="panel-header">
+                                    <i class="fa-regular fa-clipboard"></i>
+                                    <span>Input: Messy Notes</span>
+                                </div>
+                                <div class="panel-content raw-notes" id="confirm-before-text">
+                                    <!-- Messy original notes will be injected here -->
+                                </div>
+                            </div>
+
+                            <!-- Central Divider -->
+                            <div class="reveal-divider">
+                                <div class="sweep-pulse"></div>
+                            </div>
+
+                            <!-- After Panel (Autonomous outcomes) -->
+                            <div class="panel after-panel">
+                                <div class="panel-header reveal-item">
+                                    <i class="fa-solid fa-robot"></i>
+                                    <span>Output: Autonomous Agent Actions</span>
+                                </div>
+                                <div class="panel-content">
+                                    <!-- Todoist Status Card -->
+                                    <div class="outcome-card positive reveal-item" id="todoist-outcome-card">
+                                        <div class="card-icon"><i class="fa-solid fa-list-check"></i></div>
+                                        <div class="card-details">
+                                            <div class="card-status">
+                                                <h3>Tasks Created in Todoist</h3>
+                                                <span class="status-indicator success">✓ Created</span>
+                                            </div>
+                                            <p id="todoist-outcome-desc">Tasks created in Todoist Inbox with appropriate dates and tags.</p>
+                                            <div class="outcome-links" id="todoist-links-container">
+                                                <!-- Dynamically generated Todoist task links -->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Email Status Card -->
+                                    <div class="outcome-card positive reveal-item" id="email-outcome-card">
+                                        <div class="card-icon"><i class="fa-regular fa-envelope"></i></div>
+                                        <div class="card-details">
+                                            <div class="card-status">
+                                                <h3>Summary Email Outbox</h3>
+                                                <span class="status-indicator success check-badge">✓ Generated</span>
+                                            </div>
+                                            <p>An email summary recapping owners and due dates was drafted and simulated.</p>
+                                            <div class="outcome-actions">
+                                                <button class="btn btn-secondary btn-sm" id="btn-open-email-preview">
+                                                    <i class="fa-regular fa-eye"></i> View Summary Email
+                                                </button>
+                                                <button class="btn btn-secondary btn-sm" id="btn-copy-email-recap">
+                                                    <i class="fa-regular fa-copy"></i> Copy to Clipboard
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-footer text-center">
+                            <button class="btn btn-primary" id="btn-restart">
+                                <i class="fa-solid fa-rotate-left"></i> Process Another Meeting
+                            </button>
+                        </div>
+                    </section>
+                </div>
+
+            <!-- MEETING LOGS & APPROVALS VIEW -->
+            <div id="logs-view" class="view-container hidden" style="display: flex; gap: 20px; height: calc(100vh - 120px);">
+                <!-- Left: Meeting Timeline List -->
+                <div class="logs-sidebar glass-panel" style="width: 320px; display: flex; flex-direction: column; padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); background: rgba(10, 11, 18, 0.4); flex-shrink: 0; box-sizing: border-box;">
+                    <h3 style="margin-top: 0; margin-bottom: 12px; font-family: var(--font-heading); color: #fff;">Logged Meetings</h3>
+                    <div id="meetings-list" style="flex-grow: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-right: 4px;">
+                        <!-- Meeting cards list will be injected here -->
+                        <p class="text-muted" style="font-size: 0.85rem; text-align: center; margin-top: 20px;">No meeting logs parsed yet.</p>
+                    </div>
+                </div>
+                
+                <!-- Right: Selected Meeting Details & Review Panel -->
+                <div class="logs-detail-panel glass-panel" id="logs-detail-panel" style="flex-grow: 1; display: flex; flex-direction: column; padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); background: rgba(10, 11, 18, 0.4); min-width: 0; overflow-y: auto; box-sizing: border-box; color: #fff;">
+                    <div id="selected-meeting-empty" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--text-secondary); text-align: center; margin: auto;">
+                        <i class="fa-solid fa-inbox" style="font-size: 3rem; color: var(--border-color); margin-bottom: 12px;"></i>
+                        <p>Select a meeting from the list to review summaries, approve outgoing emails, or retry delivery failures.</p>
+                    </div>
+                    
+                    <div id="selected-meeting-content" class="hidden" style="display: flex; flex-direction: column; gap: 20px;">
+                        <!-- Dynamic Content populated via app.js -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+        <!-- Simulated Email Outbox Drawer (Slides from Right) -->
+        <div class="email-drawer-backdrop" id="email-drawer-backdrop"></div>
+        <div class="email-drawer" id="email-drawer">
+            <div class="drawer-header">
+                <div class="drawer-title">
+                    <i class="fa-solid fa-envelope-open-text"></i>
+                    <h2>Simulated Sent Email Recap</h2>
+                </div>
+                <button class="btn-icon" id="btn-close-email-drawer"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="drawer-body">
+                <div class="email-envelope-info">
+                    <div class="envelope-row">
+                        <span class="envelope-label">From:</span>
+                        <span class="envelope-value" id="email-preview-from">Synapse AI Agent &lt;agent@synapse.ai&gt;</span>
+                    </div>
+                    <div class="envelope-row">
+                        <span class="envelope-label">To:</span>
+                        <span class="envelope-value" id="email-preview-to">priya@company.com, raj@company.com</span>
+                    </div>
+                    <div class="envelope-row">
+                        <span class="envelope-label">Subject:</span>
+                        <span class="envelope-value" id="email-preview-subject">Action Items & Meeting Summary</span>
+                    </div>
+                    <div class="envelope-row">
+                        <span class="envelope-label">Date:</span>
+                        <span class="envelope-value" id="email-preview-date">Today</span>
+                    </div>
+                </div>
+
+                <!-- Rich Email Body Screen -->
+                <div class="email-content-box" id="email-preview-body">
+                    <!-- HTML body injected here -->
+                </div>
+            </div>
+            <div class="drawer-footer split-buttons">
+                <button class="btn btn-secondary" id="btn-copy-drawer-html">
+                    <i class="fa-solid fa-code"></i> Copy Email HTML
+                </button>
+                <button class="btn btn-primary" id="btn-mailto-trigger">
+                    <i class="fa-solid fa-paper-plane"></i> Draft in Default Mail App
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div class="modal-backdrop" id="help-modal-backdrop">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>About Meeting Action Agent</h2>
+                <button class="btn-icon" id="btn-close-help"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <h3>Why this is an Agent, not just a script:</h3>
+                <p>
+                    <strong>1. Intelligent Extraction:</strong> It parses unstructured speech/text using Google Gemini LLM, mapping ambiguous timeline expressions (like <em>"early next week"</em> or <em>"Thursday"</em>) to calendar dates.
+                </p>
+                <p>
+                    <strong>2. Autonomous Automation:</strong> It acts on your behalf. By authorizing Todoist, it builds projects, configures dates, and pushes tasks directly into your task manager.
+                </p>
+                <p>
+                    <strong>3. Follow-up Recaps:</strong> It writes and designs professional recap drafts containing task boards, saving manual data entry and email copywriting time.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="btn-close-help-confirm">Got it!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Global Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="anime.min.js"></script>
+    <script src="app.js?v=17"></script>
+</body>
+</html>

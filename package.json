@@ -1,0 +1,15 @@
+{
+  "name": "meeting-copilot",
+  "version": "1.0.0",
+  "description": "Synapse Meeting Action Agent",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "nodemailer": "^6.9.13"
+  },
+  "author": "Antigravity",
+  "license": "ISC"
+}
