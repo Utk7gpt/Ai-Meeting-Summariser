@@ -360,7 +360,7 @@ function setupEventListeners() {
 
     // Load Demo Data
     elements.btnInsertDemo.addEventListener('click', () => {
-        elements.notesInput.value = `"Okay so for the launch — Kaustubh, can you finalize the pricing page by Thursday. Also we still need someone to test the checkout flow, maybe Ekam can pick that up early next week. And I'll follow up with the vendor about the contract, hopefully by Friday."`;
+        elements.notesInput.value = `"Okay so for the launch — John, can you finalize the pricing page by Thursday. Also we still need someone to test the checkout flow, maybe Ekam can pick that up early next week. And I'll follow up with the vendor about the contract, hopefully by Friday."`;
         showToast('Demo meeting notes loaded!', 'info');
     });
 
@@ -520,9 +520,9 @@ async function handleParseNotes() {
 function simulateParsing(text) {
     // Check if the user is testing the default launch meeting example
     const normalizedText = text.toLowerCase();
-    if (normalizedText.includes('kaustubh') && normalizedText.includes('ekam') && normalizedText.includes('vendor')) {
+    if (normalizedText.includes('john') && normalizedText.includes('ekam') && normalizedText.includes('vendor')) {
         return [
-            { task: "Finalize pricing page", owner: "Kaustubh", due_date: "Thursday" },
+            { task: "Finalize pricing page", owner: "John", due_date: "Thursday" },
             { task: "Test checkout flow", owner: "Ekam", due_date: "Early next week" },
             { task: "Follow up with vendor about contract", owner: "You", due_date: "Friday" }
         ];
@@ -554,7 +554,7 @@ function simulateParsing(text) {
 
         // Fallback to name matching inside text if no prefix speaker was matched
         if (!speakerMatch) {
-            const nameMatches = cleanLine.match(/(Kaustubh|Ekam|Deepanshu|Amit|Neha|Siddharth|Utkarsh|Sarah|John|Priyanka|Lisa)/i);
+            const nameMatches = cleanLine.match(/(Ekam|Deepanshu|Amit|Neha|Siddharth|Utkarsh|Sarah|John|Priyanka|Lisa)/i);
             if (nameMatches) {
                 owner = nameMatches[0].charAt(0).toUpperCase() + nameMatches[0].slice(1).toLowerCase();
             } else if (cleanLine.toLowerCase().includes('someone') || cleanLine.toLowerCase().includes('need to test')) {
@@ -1324,7 +1324,7 @@ function resolveRecipientsFromTranscript(text) {
         });
     } else {
         // Fallback: search for known name keywords in manual pasted notes
-        const nameMatches = text.matchAll(/(Kaustubh|Ekam|Deepanshu|Amit|Neha|Siddharth|Utkarsh|Sarah|John|Priyanka|Lisa)/ig);
+        const nameMatches = text.matchAll(/(Ekam|Deepanshu|Amit|Neha|Siddharth|Utkarsh|Sarah|John|Priyanka|Lisa)/ig);
         for (const match of nameMatches) {
             speakers.add(match[0].toLowerCase());
         }

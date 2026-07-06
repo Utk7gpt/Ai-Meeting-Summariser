@@ -200,13 +200,13 @@ app.post('/api/transcript', async (req, res) => {
                 timestamp: line.timestamp
             }));
             cleanTranscriptText = cleanTranscriptRaw.map(line => `[${line.timestamp}] ${line.speaker}: ${line.text}`).join('\n');
-            summary = "The team aligned on the timeline for deploying Q3 software changes. Kaustubh agreed to complete pricing pages on staging by Thursday. Ekam agreed to test the checkout flow early next week.";
+            summary = "The team aligned on the timeline for deploying Q3 software changes. John agreed to complete pricing pages on staging by Thursday. Ekam agreed to test the checkout flow early next week.";
             decisions = [
                 "Decided to release staging code by Thursday night.",
                 "Approved Ekam's test case design timeline."
             ];
             tasks = [
-                { task: "Finalize pricing page", owner: "Kaustubh", due_date: "Thursday" },
+                { task: "Finalize pricing page", owner: "John", due_date: "Thursday" },
                 { task: "Test checkout flow", owner: "Ekam", due_date: "Early next week" },
                 { task: "Follow up with vendor about contract", owner: "You", due_date: "Friday" }
             ];
@@ -517,13 +517,13 @@ app.post('/api/meetings/create', async (req, res) => {
             }));
 
             cleanTranscriptText = cleanTranscriptRaw.map(line => `[${line.timestamp}] ${line.speaker}: ${line.text}`).join('\n');
-            summary = "The team discussed the upcoming Q3 software deployment parameters. Kaustubh agreed to host the updated code on the staging branch by Thursday, while Ekam was approved to build test cases for the billing engine early next week.";
+            summary = "The team discussed the upcoming Q3 software deployment parameters. John agreed to host the updated code on the staging branch by Thursday, while Ekam was approved to build test cases for the billing engine early next week.";
             decisions = [
                 "Agreed to finalize pricing layouts on staging by Thursday.",
                 "Approved Ekam to deploy automations for billing early next week."
             ];
             tasks = [
-                { task: "Finalize pricing page", owner: "Kaustubh", due_date: "Thursday" },
+                { task: "Finalize pricing page", owner: "John", due_date: "Thursday" },
                 { task: "Test checkout flow", owner: "Ekam", due_date: "Early next week" },
                 { task: "Follow up with vendor about contract", owner: "You", due_date: "Friday" }
             ];
