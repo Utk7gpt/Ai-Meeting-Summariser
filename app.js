@@ -1498,8 +1498,34 @@ function setupAuthentication() {
     // Sign Out
     elements.btnSignOut.addEventListener('click', () => {
         sessionStorage.removeItem('synapse_auth_session');
-        showToast('Signed out successfully.', 'info');
+        localStorage.removeItem('synapse_settings'); // Wipe local storage settings cache
+        showToast('Signed out successfully and cleared settings.', 'info');
         
+        // Reset appState
+        appState.geminiKey = '';
+        appState.todoistToken = '';
+        appState.resendKey = '';
+        appState.emailFrom = '';
+        appState.smtpHost = '';
+        appState.smtpPort = '';
+        appState.smtpUser = '';
+        appState.smtpPass = '';
+        appState.emailRecipients = '';
+        appState.teamDirectory = '';
+        
+        // Reset sidebar form inputs
+        elements.geminiKeyInput.value = '';
+        elements.todoistTokenInput.value = '';
+        elements.resendKeyInput.value = '';
+        elements.emailFromInput.value = '';
+        elements.smtpHostInput.value = '';
+        elements.smtpPortInput.value = '';
+        elements.smtpUserInput.value = '';
+        elements.smtpPassInput.value = '';
+        elements.emailRecipientsInput.value = '';
+        elements.teamDirectoryInput.value = '';
+        elements.emailSenderNameInput.value = 'You';
+
         // Animate exit to login overlay
         anime({
             targets: '.app-container',
